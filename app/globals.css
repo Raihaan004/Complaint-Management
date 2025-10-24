@@ -1,26 +1,9 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* basic reset & small layout */
+html,body,#root { height:100%; margin:0; padding:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+.container { max-width:1000px; margin:24px auto; padding:0 16px; }
+.card { background:#fff; border-radius:8px; padding:16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+input, textarea, select, button { font:inherit; padding:8px; border:1px solid #ddd; border-radius:6px; }
+button { cursor:pointer; }
+table { width:100%; border-collapse: collapse; }
+th, td { border:1px solid #eee; padding:8px; text-align:left; }
+@media (max-width: 640px) { .table-responsive { overflow-x:auto; } }
