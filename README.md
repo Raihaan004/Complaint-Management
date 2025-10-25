@@ -1,36 +1,158 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎯 Complaint Management System
 
-## Getting Started
+A modern, responsive web application built with Next.js for managing customer complaints efficiently. The system features real-time status updates, email notifications, and a user-friendly admin interface.
 
-First, run the development server:
+## ✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### For Users
+- 🚀 Easy complaint submission with priority levels
+- 📧 Real-time email notifications for status updates
+- 📱 Fully responsive design for all devices
+- 🔍 Track complaints with unique reference IDs
+- 🔒 Secure user authentication system
+
+### For Administrators
+- 📊 Comprehensive admin dashboard with filtering options
+- 🔄 Real-time status management system
+- 📝 Comment system for detailed updates
+- 📨 Automated bidirectional email notifications
+- 🎯 Priority-based complaint handling
+- 🗂️ Category-based organization
+- 📊 User email tracking and management
+
+## 🛠️ Tech Stack
+
+- **Frontend:**
+  - Next.js 13+ (App Router)
+  - TypeScript
+  - Tailwind CSS
+  - React (Server & Client Components)
+
+- **Backend:**
+  - Next.js API Routes
+  - MongoDB with Mongoose
+  - JWT Authentication
+  - Nodemailer for automated emails
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 16.8 or later
+- MongoDB instance
+- Email service credentials (SMTP)
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+# MongoDB Connection
+MONGODB_URI=your_mongodb_connection_string
+
+# JWT Secret
+JWT_SECRET=your_jwt_secret_key
+
+# Email Configuration
+EMAIL_HOST=your_smtp_host
+EMAIL_PORT=587
+EMAIL_USER=your_email_username
+EMAIL_PASS=your_email_password
+ADMIN_EMAIL=admin@example.com
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Raihaan004/Complaint-Management.git
+   cd complaint-management
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+complaint-management/
+├── app/                   # Next.js app router
+│   ├── admin/            # Admin dashboard
+│   ├── api/              # API routes
+│   │   ├── auth/         # Authentication endpoints
+│   │   └── complaints/   # Complaint management
+│   ├── login/           # User login page
+│   └── register/        # User registration
+├── components/           # React components
+│   ├── ComplaintForm.tsx    # Submission form
+│   ├── ComplaintTable.tsx   # Admin table
+│   └── ...                  # Other components
+├── lib/                  # Utility functions
+│   ├── dbConnect.ts      # MongoDB connection
+│   ├── jwt.ts           # JWT handling
+│   └── nodemailer.ts    # Email service
+└── models/              # MongoDB models
+    ├── Complaint.ts     # Complaint schema
+    └── User.ts         # User schema
+```
 
-## Deploy on Vercel
+## 🔄 Core Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Email Notifications
+- Automatic notifications for complaint submission
+- Status update notifications for users
+- Admin notifications for new complaints
+- Customizable email templates
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Admin Dashboard
+- Real-time complaint management
+- Status filtering (Pending, In Progress, Resolved)
+- Priority-based sorting
+- User email tracking
+- Detailed complaint view
+- Comment system for updates
+
+### Security
+- JWT-based authentication
+- Secure password handling
+- Protected API routes
+- Role-based access control
+
+## 📝 API Routes
+
+### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+
+### Complaints
+- `GET /api/complaints` - List all complaints (admin)
+- `POST /api/complaints` - Submit new complaint
+- `PATCH /api/complaints/[id]` - Update complaint status
+- `DELETE /api/complaints/[id]` - Delete complaint
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 📞 Contact
+
+[@Raihaan004](https://github.com/Raihaan004)
+
+Project Link: [https://github.com/Raihaan004/Complaint-Management](https://github.com/Raihaan004/Complaint-Management)
