@@ -24,24 +24,46 @@ export async function POST(req: Request) {
     await dbConnect();
     const body = await req.json();
 
-    const created = await Complaint.create({
+    const complaint = await Complaint.create({
       title: body.title,
       description: body.description,
       category: body.category,
       priority: body.priority || "Low",
+      userEmail: body.userEmail,
+      statusHistory: [{
+        status: "Pending",
+        date: new Date(),
+        comment: "Complaint submitted"
+      }]
     });
 
-    // send email to admin with details
-    const html = `<h2>New Complaint Submitted</h2>
-      <p><b>Title:</b> ${created.title}</p>
-      <p><b>Category:</b> ${created.category}</p>
-      <p><b>Priority:</b> ${created.priority}</p>
-      <p><b>Description:</b><br/>${created.description}</p>
-      <p><i>Submitted at ${created.dateSubmitted}</i></p>`;
+    // Import email templates
+    const { getComplaintSubmissionEmail } = await import('@/lib/emailTemplates');
 
-    await sendMail({ subject: `New Complaint: ${created.title}`, html });
+    // Send confirmation email to user
+    const userEmail = getComplaintSubmissionEmail(complaint);
+    await sendMail({
+      to: complaint.userEmail,
+      subject: userEmail.subject,
+      html: userEmail.html
+    });
 
-    return NextResponse.json({ message: "Complaint created", complaint: created });
+    // Send notification to admin
+    const adminHtml = `
+      <h2>New Complaint Submitted</h2>
+      <p><b>From:</b> ${complaint.userEmail}</p>
+      <p><b>Title:</b> ${complaint.title}</p>
+      <p><b>Category:</b> ${complaint.category}</p>
+      <p><b>Priority:</b> ${complaint.priority}</p>
+      <p><b>Description:</b><br/>${complaint.description}</p>
+      <p><i>Submitted at ${complaint.dateSubmitted}</i></p>
+    `;
+    await sendMail({
+      subject: `New Complaint: ${complaint.title}`,
+      html: adminHtml
+    });
+
+    return NextResponse.json({ message: "Complaint created", complaint });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

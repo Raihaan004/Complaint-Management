@@ -31,13 +31,42 @@ export default function ComplaintTable() {
 
   useEffect(() => { fetchAll(); }, []);
 
-  async function updateStatus(id: string, status: string) {
+  const [selectedComplaint, setSelectedComplaint] = useState<{ id: string; status: string } | null>(null);
+  const [statusComment, setStatusComment] = useState("");
+
+  async function updateStatus(id: string, newStatus: string) {
+    setSelectedComplaint({ id, status: newStatus });
+    setStatusComment("");
+  }
+
+  async function confirmStatusUpdate() {
+    if (!selectedComplaint) return;
+
     const token = localStorage.getItem("token");
-    await fetch(`/api/complaints/${id}`, {
+    const response = await fetch(`/api/complaints/${selectedComplaint.id}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ status }),
+      headers: { 
+        "Content-Type": "application/json", 
+        Authorization: `Bearer ${token}` 
+      },
+      body: JSON.stringify({ 
+        status: selectedComplaint.status,
+        comment: statusComment.trim() || `Status updated to ${selectedComplaint.status}`
+      }),
     });
+
+    if (!response.ok) {
+      const error = await response.json();
+      alert(error?.error || "Failed to update status");
+    } else {
+      const result = await response.json();
+      if (result.message) {
+        alert("Status updated successfully!");
+      }
+    }
+
+    setSelectedComplaint(null);
+    setStatusComment("");
     fetchAll();
   }
 
@@ -94,7 +123,17 @@ export default function ComplaintTable() {
                 <td>{c.priority}</td>
                 <td>{new Date(c.dateSubmitted || "").toLocaleString()}</td>
                 <td>
-                  <select value={c.status} onChange={(e) => updateStatus(c._id, e.target.value)}>
+                  <select 
+                    value={c.status} 
+                    onChange={(e) => updateStatus(c._id, e.target.value)}
+                    style={{
+                      backgroundColor: 
+                        c.status === 'Pending' ? '#FEF3C7' :
+                        c.status === 'In Progress' ? '#DBEAFE' :
+                        c.status === 'Resolved' ? '#D1FAE5' :
+                        'white'
+                    }}
+                  >
                     <option>Pending</option>
                     <option>In Progress</option>
                     <option>Resolved</option>
@@ -111,6 +150,71 @@ export default function ComplaintTable() {
           </tbody>
         </table>
       </div>
+
+      {/* Status Update Modal */}
+      {selectedComplaint && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            padding: '2rem',
+            borderRadius: '0.5rem',
+            width: '90%',
+            maxWidth: '500px'
+          }}>
+            <h3 style={{ marginTop: 0 }}>Update Status</h3>
+            
+            <p style={{ marginBottom: '1rem' }}>
+              Changing status to: <strong>{selectedComplaint.status}</strong>
+            </p>
+
+            <div style={{ marginBottom: '1rem' }}>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '0.5rem',
+                color: 'var(--text-secondary)'
+              }}>
+                Add a comment (optional):
+              </label>
+              <textarea
+                value={statusComment}
+                onChange={(e) => setStatusComment(e.target.value)}
+                placeholder="Enter any additional notes or comments..."
+                rows={4}
+                style={{ width: '100%' }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setSelectedComplaint(null)}
+                style={{
+                  backgroundColor: '#EF4444',
+                  color: 'white'
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmStatusUpdate}
+                className="btn-primary"
+              >
+                Update Status
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

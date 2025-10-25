@@ -11,21 +11,40 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        <nav className="nav">
+          <div className="nav-container">
+            <a href="/" className="nav-link">
+              <h1 className="nav-logo" style={{ fontSize: '1.5rem', fontWeight: 600 }}>
+                Complaint Management
+              </h1>
+            </a>
+            <div className="nav-links">
+              <a href="/" className="nav-link">Submit Complaint</a>
+              <a href="/login" className="nav-link">Login</a>
+              <a href="/register" className="nav-link">Register</a>
+              <a href="/admin" className="nav-link" style={{ 
+                backgroundColor: 'var(--primary-color)',
+                color: 'white',
+                padding: '0.5rem 1rem',
+                borderRadius: '0.5rem',
+                marginLeft: '1rem'
+              }}>
+                Admin Portal
+              </a>
+            </div>
+          </div>
+        </nav>
+
         <div className="container">
-          <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <h1>Complaint Management</h1>
-            <nav>
-              <a style={{ marginRight: 10 }} href="/">Submit</a>
-              <a style={{ marginRight: 10 }} href="/login">Login</a>
-              <a style={{ marginRight: 10 }} href="/register">Register</a>
-              <a href="/admin">Admin</a>
-            </nav>
-          </header>
+          <main style={{ minHeight: 'calc(100vh - 200px)' }}>{children}</main>
 
-          <main>{children}</main>
-
-          <footer style={{ marginTop: 40, color: "#666" }}>
-            <small>Built with Next.js • MongoDB • Nodemailer • JWT</small>
+          <footer className="text-center" style={{ 
+            marginTop: '3rem',
+            padding: '2rem',
+            color: 'var(--text-secondary)',
+            borderTop: '1px solid #E5E7EB'
+          }}>
+            <p>Built with Next.js • MongoDB • Nodemailer • JWT</p>
           </footer>
         </div>
       </body>
