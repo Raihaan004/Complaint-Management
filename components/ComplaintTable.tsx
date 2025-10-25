@@ -10,6 +10,7 @@ type Complaint = {
   priority?: string;
   status?: string;
   dateSubmitted?: string;
+  userEmail?: string;
 };
 
 export default function ComplaintTable() {
@@ -107,7 +108,8 @@ export default function ComplaintTable() {
         <table>
           <thead>
             <tr>
-              <th>Title</th>
+              <th>Title & Description</th>
+              <th>Submitted By</th>
               <th>Category</th>
               <th>Priority</th>
               <th>Date</th>
@@ -118,11 +120,31 @@ export default function ComplaintTable() {
           <tbody>
             {visible.map(c => (
               <tr key={c._id}>
-                <td style={{ minWidth: 200 }}>{c.title}</td>
-                <td>{c.category}</td>
-                <td>{c.priority}</td>
-                <td>{new Date(c.dateSubmitted || "").toLocaleString()}</td>
                 <td>
+                  <div className="complaint-details">
+                    <strong>{c.title}</strong>
+                    {c.description && <p>{c.description}</p>}
+                  </div>
+                </td>
+                <td className="email-cell">
+                  <span>{c.userEmail}</span>
+                </td>
+                <td className="category-cell">{c.category}</td>
+                <td className="priority-cell">
+                  <span style={{
+                    padding: "4px 12px",
+                    borderRadius: "12px",
+                    fontSize: "0.9em",
+                    backgroundColor: c.priority === "High" ? "#FEE2E2" : 
+                                   c.priority === "Medium" ? "#FEF3C7" : "#E0E7FF",
+                    color: c.priority === "High" ? "#DC2626" :
+                           c.priority === "Medium" ? "#D97706" : "#4F46E5"
+                  }}>
+                    {c.priority}
+                  </span>
+                </td>
+                <td className="date-cell">{new Date(c.dateSubmitted || "").toLocaleString()}</td>
+                <td className="status-cell">
                   <select 
                     value={c.status} 
                     onChange={(e) => updateStatus(c._id, e.target.value)}
@@ -131,7 +153,17 @@ export default function ComplaintTable() {
                         c.status === 'Pending' ? '#FEF3C7' :
                         c.status === 'In Progress' ? '#DBEAFE' :
                         c.status === 'Resolved' ? '#D1FAE5' :
-                        'white'
+                        'white',
+                      borderColor:
+                        c.status === 'Pending' ? '#FCD34D' :
+                        c.status === 'In Progress' ? '#60A5FA' :
+                        c.status === 'Resolved' ? '#34D399' :
+                        '#E5E7EB',
+                      color:
+                        c.status === 'Pending' ? '#92400E' :
+                        c.status === 'In Progress' ? '#1E40AF' :
+                        c.status === 'Resolved' ? '#065F46' :
+                        '#374151'
                     }}
                   >
                     <option>Pending</option>
@@ -139,13 +171,15 @@ export default function ComplaintTable() {
                     <option>Resolved</option>
                   </select>
                 </td>
-                <td>
-                  <button onClick={() => deleteComplaint(c._id)}>Delete</button>
+                <td className="actions-cell">
+                  <button onClick={() => deleteComplaint(c._id)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
             {visible.length === 0 && (
-              <tr><td colSpan={6} style={{ textAlign: "center" }}>No complaints.</td></tr>
+              <tr><td colSpan={7} style={{ textAlign: "center" }}>No complaints.</td></tr>
             )}
           </tbody>
         </table>

@@ -1,0 +1,204 @@
+/* Table styles */
+.table-responsive {
+  margin: 1.5rem auto;
+  overflow-x: auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  max-width: 95%;
+}
+
+.table-responsive table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0 auto;
+}
+
+.table-responsive th {
+  background-color: #F9FAFB;
+  padding: 16px 20px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 2px solid #E5E7EB;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-clip: padding-box;
+}
+
+.table-responsive td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #E5E7EB;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.complaint-details {
+  max-width: 350px;
+  min-width: 250px;
+}
+
+.complaint-details strong {
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+
+.complaint-details p {
+  font-size: 0.9em;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+  background-color: #F9FAFB;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #E5E7EB;
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+/* Hover effect on rows */
+.table-responsive tbody tr:hover {
+  background-color: #F9FAFB;
+}
+
+/* Email cell styles */
+.email-cell {
+  min-width: 200px;
+  max-width: 250px;
+}
+
+.email-cell span {
+  display: block;
+  background-color: #F3F4F6;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-family: 'Consolas', monospace;
+  font-size: 0.9em;
+  color: var(--primary-color);
+  word-break: break-all;
+  border: 1px solid #E5E7EB;
+}
+
+/* Category & Priority cell styles */
+.category-cell, .priority-cell {
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Date cell styles */
+.date-cell {
+  white-space: nowrap;
+  min-width: 180px;
+}
+
+/* Status select styles */
+.status-cell {
+  min-width: 140px;
+}
+
+.table-responsive select {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #E5E7EB;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* Action button styles */
+.actions-cell {
+  white-space: nowrap;
+  text-align: center;
+  min-width: 100px;
+}
+
+.table-responsive button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #FCA5A5;
+  background-color: #FEF2F2;
+  color: #EF4444;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.table-responsive button:hover {
+  background-color: #FEE2E2;
+  border-color: #EF4444;
+}
+
+/* Filter controls */
+.filter-controls {
+  display: flex;
+  gap: 16px;
+  margin: 0 auto 20px;
+  max-width: 95%;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-controls select {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  background-color: white;
+  min-width: 150px;
+  cursor: pointer;
+}
+
+.filter-controls button {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--primary-color);
+  background-color: white;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-controls button:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.table-responsive button:hover {
+  background-color: #F3F4F6;
+  border-color: #D1D5DB;
+}
+
+/* Email style */
+.user-email {
+  color: var(--primary-color);
+  font-family: monospace;
+  font-size: 0.9em;
+  background-color: #F3F4F6;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Description container */
+.description-container {
+  margin-top: 4px;
+  padding: 8px;
+  background-color: #F9FAFB;
+  border-radius: 4px;
+  border: 1px solid #E5E7EB;
+  max-height: 60px;
+  overflow-y: auto;
+}

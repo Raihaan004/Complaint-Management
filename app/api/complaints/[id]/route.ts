@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { dbConnect } from "@/lib/dbConnect";
 import Complaint from "@/models/Complaint";
-import { sendMail, sendNotifications } from "@/lib/nodemailer";
+import { sendNotifications } from "@/lib/nodemailer";
+import { getStatusUpdateEmail } from "@/lib/emailTemplates";
 import { requireAuth } from "@/app/api/complaints/authHelper";
 
 interface UpdateComplaintBody {
@@ -65,25 +66,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
           await sendNotifications({
             userEmail: updatedComplaint.userEmail,
             adminSubject: `Complaint #${updatedComplaint._id} Status Updated`,
-            adminHtml: `
-              <h3>Status Update Confirmation</h3>
-              <p>The following complaint has been updated:</p>
-              <ul>
-                <li><strong>Complaint ID:</strong> ${updatedComplaint._id}</li>
-                <li><strong>Title:</strong> ${updatedComplaint.title}</li>
-                <li><strong>Previous Status:</strong> ${existingComplaint.status}</li>
-                <li><strong>New Status:</strong> ${updatedComplaint.status}</li>
-                <li><strong>Updated At:</strong> ${statusUpdateTime}</li>
-              </ul>
-              ${updateData.comment ? `
-              <div style="margin-top: 15px;">
-                <strong>Admin Comment:</strong>
-                <p style="margin-top: 5px; padding: 10px; background-color: #f3f4f6; border-radius: 4px;">
-                  ${updateData.comment}
-                </p>
-              </div>
-              ` : ''}
-            `,
+            adminHtml: getStatusUpdateEmail(updatedComplaint, updateData.comment, true).html,
             userSubject: "Your Complaint Status Has Been Updated",
             userHtml: `
               <h3>Complaint Status Update</h3>

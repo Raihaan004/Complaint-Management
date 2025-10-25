@@ -19,13 +19,25 @@ export function getComplaintSubmissionEmail(complaint: IComplaint): { subject: s
         </div>
         
         <p>We will keep you updated on any status changes.</p>
-        <p style="color: #666;">Reference ID: ${complaint._id}</p>
+        <div style="
+          background-color: #E5E7EB;
+          border: 1px solid #D1D5DB;
+          border-radius: 4px;
+          padding: 12px;
+          margin-top: 20px;
+          text-align: center;
+        ">
+          <p style="margin: 0; font-size: 0.9em; color: #374151;">
+            <strong>Reference ID:</strong><br/>
+            <span style="font-family: monospace; font-size: 1.1em; color: #1F2937;">${complaint._id?.toString()}</span>
+          </p>
+        </div>
       </div>
     `
   };
 }
 
-export function getStatusUpdateEmail(complaint: IComplaint, comment?: string): { subject: string; html: string } {
+export function getStatusUpdateEmail(complaint: IComplaint, comment?: string, isAdminNotification: boolean = false): { subject: string; html: string } {
   const statusColors = {
     'Pending': '#FCD34D',
     'In Progress': '#60A5FA',
@@ -33,6 +45,22 @@ export function getStatusUpdateEmail(complaint: IComplaint, comment?: string): {
   };
   
   const statusColor = statusColors[complaint.status as keyof typeof statusColors] || '#4F46E5';
+
+  // Additional information for admin notifications
+  const adminInfo = isAdminNotification ? `
+    <div style="margin-top: 20px; background: #FFFFFF; padding: 15px; border-radius: 8px; border: 1px solid #E5E7EB;">
+      <h4 style="margin: 0 0 10px 0; color: #4B5563;">Complaint Information:</h4>
+      <p style="margin: 0;"><strong>Submitted By:</strong> ${complaint.userEmail}</p>
+      ${complaint.description ? `
+        <div style="margin-top: 10px;">
+          <strong>Description:</strong>
+          <p style="margin: 8px 0 0 0; padding: 10px; background: #F9FAFB; border-radius: 4px; color: #374151;">
+            ${complaint.description}
+          </p>
+        </div>
+      ` : ''}
+    </div>
+  ` : '';
   
   return {
     subject: `Complaint Status Updated - ${complaint.title}`,
@@ -64,7 +92,21 @@ export function getStatusUpdateEmail(complaint: IComplaint, comment?: string): {
           ` : ''}
         </div>
         
-        <p>You can track your complaint using the reference ID: ${complaint._id}</p>
+        ${adminInfo}
+        
+        <div style="
+          background-color: #E5E7EB;
+          border: 1px solid #D1D5DB;
+          border-radius: 4px;
+          padding: 12px;
+          margin-top: 20px;
+          text-align: center;
+        ">
+          <p style="margin: 0; font-size: 0.9em; color: #374151;">
+            <strong>Reference ID:</strong><br/>
+            <span style="font-family: monospace; font-size: 1.1em; color: #1F2937;">${complaint._id?.toString()}</span>
+          </p>
+        </div>
       </div>
     `
   };

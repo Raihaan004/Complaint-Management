@@ -2,6 +2,7 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
 export type IComplaint = {
+  _id?: string;
   title: string;
   description?: string;
   category?: string;

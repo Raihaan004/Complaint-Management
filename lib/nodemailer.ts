@@ -18,15 +18,21 @@ export const transporter = nodemailer.createTransport({
   auth: { user, pass },
 });
 
-// Enhanced email sender with proper formatting
+// Enhanced email sender with proper formatting and metadata
 export async function sendMail({ 
   subject, 
   html, 
-  to = adminEmail 
+  to = adminEmail,
+  metadata = {} 
 }: { 
   subject: string; 
   html: string; 
   to?: string;
+  metadata?: {
+    isAdminNotification?: boolean;
+    userEmail?: string;
+    description?: string;
+  };
 }) {
   if (!transporter || !adminEmail) {
     console.error("Email configuration missing");
